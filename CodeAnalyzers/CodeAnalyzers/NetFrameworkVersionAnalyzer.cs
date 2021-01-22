@@ -11,7 +11,7 @@ namespace CodeAnalyzers
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class NetFrameworkVersionAnalyzer : DiagnosticAnalyzer
     {
-        private readonly string[] _allowedFrameworkVersions = { "2.1", "3.1" };
+        private readonly string[] _allowedFrameworkVersions = { "2.0", "2.1" };
 
         private const string CoreFrameworkString = ".NETCoreApp,Version=v";
         private const string DiagnosticId = "MyRule0001";
@@ -43,6 +43,8 @@ namespace CodeAnalyzers
 
         private void AnalyzeMethod(CompilationAnalysisContext context)
         {
+            var dbg = context.Compilation.Assembly.GetAttributes();
+
             var attrs = context.Compilation.Assembly.GetAttributes()
                 .FirstOrDefault(attr => attr.ToString().Contains("TargetFrameworkAttribute"));
 
